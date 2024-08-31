@@ -1,4 +1,3 @@
-using System;
 using CRMDev.API.Entities;
 using Microsoft.EntityFrameworkCore;
 
