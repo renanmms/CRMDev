@@ -1,4 +1,5 @@
 using CRMDev.API.DTO.InputModels;
+using CRMDev.API.Endpoints;
 using CRMDev.API.Entities;
 using CRMDev.API.Persistence;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -28,50 +29,6 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
-
-app.MapGet("/api/contacts", (CRMContext context) => {
-    var contacts = context.Contacts.ToList();
-
-    return Results.Ok(contacts);
-});
-
-app.MapGet("/api/contacts/{id}", (Guid id, CRMContext context) => {
-    var contact = context.Contacts.SingleOrDefault(c => c.Id == id);
-
-    if(contact is null)
-    {
-        return Results.NotFound();
-    }
-
-    return Results.Ok(contact);
-});
-
-app.MapPost("/api/contacts", (CRMContext context, CreateContactInputModel model) => {
-    var contact = new Contact(model.Name, model.Email);
-
-    context.Add(contact);
-    context.SaveChanges();
-
-    return Results.Created($"/api/contacts/{contact.Id}", contact);
-});
+app.AddContactEndpoints();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
