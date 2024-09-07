@@ -34,6 +34,20 @@ namespace CRMDev.API.Endpoints
                 return Results.Created($"/api/contacts/{contact.Id}", contact);
             });
 
+            app.MapPut("/api/contacts/{id}", (CRMContext context, Guid id, EditContactInputModel model) => {
+                var contact =  context.Contacts.SingleOrDefault(c => c.Id == id);
+
+                if(contact is null) 
+                {
+                    return Results.NotFound();
+                }
+
+                contact?.Update(model);
+                context.SaveChanges();
+
+                return Results.NoContent();
+            });
+
             return app;
         }
     }
