@@ -48,6 +48,20 @@ namespace CRMDev.API.Endpoints
                 return Results.NoContent();
             });
 
+            app.MapDelete("/api/contacts/{id}", (CRMContext context, Guid id) => {
+                var contact = context.Contacts.SingleOrDefault(c => c.Id == id);
+
+                if(contact is null)
+                {
+                    return Results.NotFound();
+                }
+
+                context.Contacts.Remove(contact);
+                context.SaveChanges();
+
+                return Results.NoContent();
+            });
+
             return app;
         }
     }
