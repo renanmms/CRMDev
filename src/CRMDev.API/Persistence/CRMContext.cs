@@ -12,5 +12,6 @@ namespace CRMDev.API.Persistence
         }
 
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Opportunity> Opportunities { get; set; }
     }
 }
