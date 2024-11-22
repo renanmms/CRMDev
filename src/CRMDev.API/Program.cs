@@ -1,8 +1,5 @@
-using CRMDev.API.DTO.InputModels;
 using CRMDev.API.Endpoints;
-using CRMDev.API.Entities;
 using CRMDev.API.Persistence;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +26,7 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.AddContactEndpoints();
+app.AddContactEndpoints()
+    .AddOpportunityEndpoints();
 
 app.Run();
