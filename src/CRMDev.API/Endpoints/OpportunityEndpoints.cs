@@ -41,6 +41,20 @@ namespace CRMDev.API.Endpoints
                 return Results.Created($"/api/opportunities/{opportunity.Id}", opportunity);
             });
 
+            app.MapPut("/api/opportunities/{id}", (Guid id, CRMContext context, EditOpportunityInputModel model) => {
+                var opportunity = context.Opportunities.SingleOrDefault(o => o.Id == id);
+
+                if(opportunity is null)
+                {
+                    return Results.NotFound();
+                }
+
+                opportunity.Update(model);
+                context.SaveChanges();
+
+                return Results.NoContent();
+            });
+
             return app;
         }
     }

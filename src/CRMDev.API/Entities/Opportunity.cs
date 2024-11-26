@@ -1,3 +1,4 @@
+using CRMDev.API.DTO.InputModels;
 using CRMDev.API.Enums;
 
 namespace CRMDev.API.Entities
@@ -31,5 +32,15 @@ namespace CRMDev.API.Entities
         public StatusEnum Status { get; set; }
         public ReasonEnum Reason { get; set; }
 
+        public void Update(EditOpportunityInputModel model)
+        {
+            Title = model.Title;
+            Description = model.Description;
+            DueDate = model.DueDate;
+            Budget = model.Budget;
+            HasSupport = model.HasSupport;
+            Status = model.Status;
+            Reason = model.Reason;
+        }
     }
 }
